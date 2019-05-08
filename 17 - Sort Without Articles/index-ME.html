@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sort Without Articles</title>
+</head>
+<body>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: url("https://source.unsplash.com/nDqA4d5NL0k/2000x2000");
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    #bands {
+      list-style: inside square;
+      font-size: 20px;
+      background: white;
+      width: 500px;
+      margin: auto;
+      padding: 0;
+      box-shadow: 0 0 0 20px rgba(0, 0, 0, 0.05);
+    }
+    
+    #bands li {
+      border-bottom: 1px solid #efefef;
+      padding: 20px;
+    }
+    
+    #bands li:last-child {
+      border-bottom: 0;
+    }
+
+    a {
+      color: #ffc600;
+      text-decoration: none;
+    }
+
+  </style>
+
+  <ul id="bands"></ul>
+
+<script>
+  // Sort bands array, excluding 'the' 'and' or 'a'. Display result in HTML.
+  // Bonus: Give the option to dynamically define the words you want to exclude
+
+  function stripWords(str, words = []) {
+    // return str.replace(/^(a |the |an )/i, '').trim();
+    const excludeWords = words.join('|');
+    const regex = new RegExp(`^(${excludeWords}) `, 'i');
+
+    return str.replace(regex, '').trim();
+  }
+
+  function alphabeticalString(a, b) {
+    ignoredWords = determiners;
+    return stripWords(a, ignoredWords) > stripWords(b, ignoredWords) ? 1 : -1;
+  }
+
+  function bandListHTML(data) {
+    const elements = data.map(i => `<li>${i}</li>`
+    );
+
+    return elements.join(''); // .join is necessary here because when you assign something to innerHTML that is not a string the DOM calls toString() on it and will automatically insert a comma between each value. .join will join the values into a single string rather than multiple with a comma inbetween
+  }
+
+  const determiners = ['the', 'a', 'an'];
+  const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+  const sortedBands = bands.sort(alphabeticalString);
+  const bandList = document.querySelector('#bands');
+
+  bandList.innerHTML = bandListHTML(sortedBands);
+</script>
+
+</body>
+</html>
